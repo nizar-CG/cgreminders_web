@@ -1,0 +1,29 @@
+************************creation********************
+
+
+Installation et Configuration Django
+Installation pip install django.
+Création d'un projet: django-admin startproject nomprgt.
+Création d'une application: python manage.py startapp nomapp
+
+
+
+*************************Testing********************
+
+
+python manage.py runserver
+ =====>  http://127.0.0.1:8000/
+
+python manage.py dbshell
+
+python manage.py makemigrations
+python manage.py migrate
+
+C:\Users\DELL\AppData\Local\Programs\Python\Python312\python.exe -m venv venv
+
+changer le hot :
+python manage.py runserver 5050
+
+
+
+
