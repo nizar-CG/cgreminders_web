@@ -127,7 +127,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 X_FRAME_OPTIONS = "ALLOWALL"
 CRONJOBS = [
-    ('*/5 * * * *', 'myapp.cron.my_scheduled_job')
+    ('*/5 * * * *', 'cg_remainders.cron.my_scheduled_job')
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
