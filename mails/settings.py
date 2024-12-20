@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-_g22re^^flvb@imx6uzzm1fx93o33&1*n6vrkt33lipyw%n6@1
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://*.ctt.tn','https://*.127.0.0.1']
 
 
 INSTALLED_APPS = [
@@ -139,5 +139,5 @@ EMAIL_HOST_USER = "sales@carthageit.com"
 EMAIL_HOST_PASSWORD = 'N7%&hZu(V"etk<Hf>]qwz5'
 DEFAULT_FROM_EMAIL = 'sales@carthageit.com'
 
-CSRF_TRUSTED_ORIGINS = ['https://cgreminders.ctt.tn','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.ctt.tn','https://*.127.0.0.1']
 
