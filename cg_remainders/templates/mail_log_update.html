@@ -15,72 +15,7 @@
 <link rel="stylesheet" href="{% static 'styledash.css' %}">
 
 </head>
-<style>
 
-  
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  table, th, td {
-    border: 1px solid #ddd;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-    width: 500px;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-    width: 500px;
-
-  }
-  
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .btn {
-    text-decoration: none;
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .btn-sm {
-    font-size: 12px;
-  }
-  
-  .btn-warning {
-    background-color: #ffc107;
-    color: white;
-  }
-  
-  .btn-warning:hover {
-    background-color: #e0a800;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-  
-</style>
 <body>
 <div id="page-wrapper" class="open">
   <!-- Sidebar -->
@@ -92,7 +27,7 @@
         </a>
       </li>
       <li class="sidebar-list">
-        <a href="{% url 'email_group_detail' %}" onclick="toggleDetails('email-group-details')">Email Group Details <span class="menu-icon fa fa-plus" id="email-group-details-toggle" style="cursor: pointer;"></span></a>
+       
         <a href="{% url 'email_group' %}" onclick="toggleDetails('email-groups')">Email Groups <span class="menu-icon fa fa-plus" id="email-groups-toggle" style="cursor: pointer;"></span></a>
         <a href="{% url 'mail_log' %}" onclick="toggleDetails('mail-logs')">Mail Logs <span class="menu-icon fa fa-plus"  id="mail-logs-toggle" style="cursor: pointer;"></span></a>
         <a href="{% url 'remainder' %}" onclick="toggleDetails('remainder-types')">Remainder Types <span class="menu-icon fa fa-plus" id="remainder-types-toggle" style="cursor: pointer;"></span></a>

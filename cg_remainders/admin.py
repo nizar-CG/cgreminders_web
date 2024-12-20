@@ -10,11 +10,17 @@ class RemainderTypesAdmin(admin.ModelAdmin):
     list_filter = ("remainder_frequency",)
 
 
-# Enregistrer le modèle EmailGroups
+class EmailGroupDetailsInline(admin.TabularInline):  # Use StackedInline for a different layout
+    model = EmailGroupDetails
+    extra = 1  # Number of empty fields to display for new entries
+    can_delete = True  # Allow deleting inline entries
+
+
 @admin.register(EmailGroups)
 class EmailGroupsAdmin(admin.ModelAdmin):
-    list_display = ("group_name",)
+    list_display = ("group_name", "created_at")
     search_fields = ("group_name",)
+    inlines = [EmailGroupDetailsInline]  # Add inline editing of details
 
 
 # Enregistrer le modèle EmailGroupDetails

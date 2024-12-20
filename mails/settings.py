@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
+    'django_crontab',
+    "cg_remainders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -40,11 +42,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "cg_remainders",
+
     "corsheaders",
     "mails",
 
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -123,4 +126,16 @@ LOGOUT_REDIRECT_URL = "/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 X_FRAME_OPTIONS = "ALLOWALL"
+CRONJOBS = [
+    ('*/5 * * * *', 'myapp.cron.my_scheduled_job')
+]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "webmail.tourcloud.pro"
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = "sales@carthageit.com"
+EMAIL_HOST_PASSWORD = 'N7%&hZu(V"etk<Hf>]qwz5'
+DEFAULT_FROM_EMAIL = 'sales@carthageit.com'
 

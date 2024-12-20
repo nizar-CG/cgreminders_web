@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>
+    {% if form.instance.pk %}
+    Edit Email Group
+    {% else %}
+    Create New Email Group
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">
+        {% if form.instance.pk %} Update {% else %} Create {% endif %}
+    </button>
+    <a href="{% url 'email_group' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

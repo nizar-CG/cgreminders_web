@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<h1>Confirm Delete</h1>
+<p>Are you sure you want to delete the email group <b>{{ object.group_name }}</b>?</p>
+<p>This action cannot be undone and will also delete all associated email group details.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'email_group' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

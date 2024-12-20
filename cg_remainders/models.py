@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # RemainderTypes
@@ -11,32 +12,33 @@ class RemainderTypes(models.Model):
         return self.label
 
 
-# EmailGroupDetails
-class EmailGroupDetails(models.Model):
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.email
 
 
-# EmailGroups
 class EmailGroups(models.Model):
-    group_name = models.CharField(max_length=200)
+    group_name = models.CharField(max_length=200, verbose_name="Group Name")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
 
     def __str__(self):
         return self.group_name
 
+    class Meta:
+        verbose_name = "Email Group"
+        verbose_name_plural = "Email Groups"
 
-# EmailGroupDetails
+
 class EmailGroupDetails(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(verbose_name="Email")
     group_detail = models.ForeignKey(
-        "EmailGroups", on_delete=models.CASCADE, related_name="groupdetails"
+        EmailGroups, on_delete=models.CASCADE, related_name="details", verbose_name="Group"
     )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
 
     def __str__(self):
         return self.email
 
+    class Meta:
+        verbose_name = "Email Group Detail"
+        verbose_name_plural = "Email Group Details"
 
 # Tasks
 class Tasks(models.Model):
@@ -47,9 +49,13 @@ class Tasks(models.Model):
     ]
 
     description = models.TextField()
+    main_object = models.TextField()
     remaindertype = models.ForeignKey(RemainderTypes, on_delete=models.CASCADE)
     mailgroup = models.ForeignKey(EmailGroups, on_delete=models.CASCADE)
-    state = models.CharField(max_length=20, choices=STATE_CHOICES)
+    state = models.CharField(max_length=20, choices=STATE_CHOICES, default="unsend")
+    due_date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")  # Link to User
+
 
     def __str__(self):
         return self.description

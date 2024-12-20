@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+
+  <title>CG_Remainders</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'styledash.css' %}">
+
+</head>
+
+<body>
+<div id="page-wrapper" class="open">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar">
+      <li class="sidebar-main">
+        <a ng-click="toggleSidebar()">
+          <center style="padding: 15px;"><img src="{% static 'images/logo.png' %}" class="img-responsive"></center>
+        </a>
+      </li>
+      <li class="sidebar-list">
+        
+        <a href="{% url 'email_group' %}" onclick="toggleDetails('email-groups')">Email Groups <span class="menu-icon fa fa-plus" id="email-groups-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'mail_log' %}" onclick="toggleDetails('mail-logs')">Mail Logs <span class="menu-icon fa fa-plus"  id="mail-logs-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'remainder' %}" onclick="toggleDetails('remainder-types')">Remainder Types <span class="menu-icon fa fa-plus" id="remainder-types-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'tasks' %}" onclick="toggleDetails('tasks')">Tasks <span class="menu-icon fa fa-plus" id="tasks-toggle" style="cursor: pointer;"></span></a>
+      </li>
+    </ul>
+  </div>
+  <!-- End Sidebar -->
+
+  <div id="content-wrapper" >
+    <div class="page-content" style="margin: 0px 50px 0px 50px;">
+      <!-- Header Bar -->
+      <div class="row header" style="background-color: transparent;">
+        <div class="col-xs-12">
+          <div class="user pull-right">
+            <div class="item dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-4x"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="divider"></li>
+                <li class="link">
+                  <a href="{% url 'Login' %}">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main Content -->
+<div class="ng-scope">
+  <div class="row ng-scope">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+         {% block content %}
+        <!-- Main content will go here -->
+        {% endblock %}
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
