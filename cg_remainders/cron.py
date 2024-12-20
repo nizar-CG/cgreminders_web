@@ -12,6 +12,7 @@ def my_scheduled_job():
       print(send_factor,task.due_date, task.remaindertype.before_duration, task.description)
       #check by due date against send factor
       if send_factor == task.remaindertype.before_duration :
+        print(task.mailgroup.details)
         send_mail(
           task.main_object,
           task.description,
