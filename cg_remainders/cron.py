@@ -5,6 +5,7 @@ from datetime import datetime , timedelta
 def my_scheduled_job():
   today = datetime.now().date()
   tasks = Tasks.objects.all()
+  print('mail checking')
 
   for task in tasks:
       send_factor = (task.due_date - today).days
