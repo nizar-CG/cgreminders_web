@@ -9,7 +9,7 @@ def my_scheduled_job():
 
   for task in tasks:
       send_factor = (task.due_date - today).days
-      print(send_factor,task.due_date, task.remaindertype.before_duration)
+      print(send_factor,task.due_date, task.remaindertype.before_duration, task.description)
       #check by due date against send factor
       if send_factor == task.remaindertype.before_duration :
         send_mail(
