@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 
-from models import Tasks,RemainderTypes,EmailGroups,MailLog
+from .models import Tasks,RemainderTypes,EmailGroups,MailLog
 from datetime import datetime , timedelta
 def my_scheduled_job():
   today = datetime.now().date()
