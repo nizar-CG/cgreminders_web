@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-_g22re^^flvb@imx6uzzm1fx93o33&1*n6vrkt33lipyw%n6@1
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://*.ctt.tn','https://*.127.0.0.1']
+ALLOWED_HOSTS = ['cgreminders.ctt.tn','127.0.0.1']
 
 
 INSTALLED_APPS = [
