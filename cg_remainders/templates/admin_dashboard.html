@@ -5,21 +5,83 @@
   {% load static %}
 
   <title>CG_Remainders</title>
-  <!-- Inclure jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Inclure Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Inclure Bootstrap CSS (si ce n'est pas déjà fait) -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="{% static 'styledash.css' %}">
 
 </head>
+<style>
+
+  
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    width: 500px;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+    width: 500px;
+
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .btn {
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .btn-sm {
+    font-size: 12px;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+</style>
 <body>
-<!-- partial:index.partial.html -->
 <div id="page-wrapper" class="open">
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
@@ -29,22 +91,21 @@
           <center style="padding: 15px;"><img src="{% static 'images/logo.png' %}" class="img-responsive"></center>
         </a>
       </li>
-      <!-- General -->
       <li class="sidebar-list">
-        <a href="#" onclick="toggleDetails('email-group-details')">Email Group Details <span class="menu-icon fa fa-plus" id="email-group-details-toggle" style="cursor: pointer;"></span></a>
-        <a href="#" onclick="toggleDetails('email-groups')">Email Groups <span class="menu-icon fa fa-plus" id="email-groups-toggle" style="cursor: pointer;"></span></a>
-        <a href="#" onclick="toggleDetails('mail-logs')">Mail Logs <span class="menu-icon fa fa-plus"  id="mail-logs-toggle" style="cursor: pointer;"></span></a>
-        <a href="#" onclick="toggleDetails('remainder-types')">Remainder Types <span class="menu-icon fa fa-plus" id="remainder-types-toggle" style="cursor: pointer;"></span></a>
-        <a href="#" onclick="toggleDetails('tasks')">Tasks <span class="menu-icon fa fa-plus" id="tasks-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'email_group_detail' %}" onclick="toggleDetails('email-group-details')">Email Group Details <span class="menu-icon fa fa-plus" id="email-group-details-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'email_group' %}" onclick="toggleDetails('email-groups')">Email Groups <span class="menu-icon fa fa-plus" id="email-groups-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'mail_log' %}" onclick="toggleDetails('mail-logs')">Mail Logs <span class="menu-icon fa fa-plus"  id="mail-logs-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'remainder' %}" onclick="toggleDetails('remainder-types')">Remainder Types <span class="menu-icon fa fa-plus" id="remainder-types-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'tasks' %}" onclick="toggleDetails('tasks')">Tasks <span class="menu-icon fa fa-plus" id="tasks-toggle" style="cursor: pointer;"></span></a>
       </li>
     </ul>
   </div>
   <!-- End Sidebar -->
 
-  <div id="content-wrapper">
-    <div class="page-content">
+  <div id="content-wrapper" >
+    <div class="page-content" style="margin: 0px 50px 0px 50px;">
       <!-- Header Bar -->
-      <div class="row header">
+      <div class="row header" style="background-color: transparent;">
         <div class="col-xs-12">
           <div class="user pull-right">
             <div class="item dropdown">
@@ -66,63 +127,75 @@
       
       <!-- End Header Bar -->
 
-      <!-- Main Content -->
-      <div class="ng-scope">
-        <div class="row ng-scope">
-          <div class="col-lg-3 col-md-6 col-xs-12">
-
-            <div id="email-group-details-form" class="form-section" style="display: none;">
-              <h3>Ajouter un nouveau groupe d'emails</h3>
-              <form action="" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                  <label for="group_name">Email:
-                  </label>
-                  <input type="text" id="group_name" name="group_name" required class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" id="close-form" class="btn btn-secondary">Cancel</button>
-              </form>
-            </div> 
-
-
-
-
-
-
-
-
-
+<!-- Main Content -->
+<div class="ng-scope">
+  <div class="row ng-scope">
+    <div class="col-lg-3 col-md-6 col-xs-12">
 <!-- Formulaire caché pour Email Groups -->
 <div id="email-groups-form" class="form-section" style="display: none;">
-  <h3>Ajouter un groupe d'email</h3>
-  <form action="" method="post">
+  <h3>Add email groups</h3>
+  <form action="{% url 'add_email_group' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label for="group_name">Nom du groupe</label>
+      <label for="group_name">Groupe name:</label>
       <input type="text" id="group_name" name="group_name" required class="form-control">
     </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" id="close-email-groups-form" class="btn btn-secondary">Cancel</button>
   </form>
 </div>
 
+<div id="email-group-details-form" class="form-section" style="display: none;">
+  <h3>Add email group details</h3>
+  <form action="{% url 'add_email_group_detail' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="group_detail">Group Details</label>
+      <select id="group_detail" name="group_detail" class="form-control" required>
+        <option value="" disabled selected>Select group type</option>
+        {% for group in email_groups %}
+        <option value="{{ group.id }}">{{ group.group_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="button" class="btn btn-primary" onclick="openGroupForm()">
+      +
+    </button>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" id="close-form" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+  </form>
+</div>
+
+
 <!-- Formulaire caché pour Mail Logs -->
 <div id="mail-logs-form" class="form-section" style="display: none;">
-  <h3>Ajouter un log d'email</h3>
-  <form action="" method="post">
+  <h3>Add mail log</h3>
+  <form action="{% url 'add_mail_log' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
       <label for="log_description">Description</label>
-      <input type="text" id="log_description" name="log_description" required class="form-control">
+      <input type="text" id="log_description" name="description" required class="form-control">
     </div>
     <div class="form-group">
-      <label for="date_of_send">Date d'envoi</label>
-      <input type="date" id="date_of_send" name="date_of_send" required class="form-control">
+      <label for="date_of_send">Date of send</label>
+      <input type="datetime-local" id="dateofsend" name="dateofsend" required class="form-control">
     </div>
     <div class="form-group">
-      <label for="email_group">Groupe Email</label>
-      <input type="text" id="email_group" name="email_group" required class="form-control">
+      <label for="email_group">Email Group </label>
+      <select id="email_group" name="email_group" class="form-control" required>
+        <option value="" disabled selected>Select group type</option>
+        {% for group in email_groups %}
+        <option value="{{ group.id }}">{{ group.group_name }}</option>
+        {% endfor %}
+      </select>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" id="close-mail-logs-form" class="btn btn-secondary">Cancel</button>
@@ -131,20 +204,20 @@
 
 <!-- Formulaire caché pour Remainder Types -->
 <div id="remainder-types-form" class="form-section" style="display: none;">
-  <h3>Ajouter un type de rappel</h3>
-  <form action="" method="post">
+  <h3>Add remainder type  </h3>
+  <form action="{% url 'add_remainder_type' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label for="label">Label</label>
+      <label for="label">Label:</label>
       <input type="text" id="label" name="label" required class="form-control">
     </div>
     <div class="form-group">
-      <label for="before_duration">Durée avant</label>
-      <input type="text" id="before_duration" name="before_duration" required class="form-control">
+      <label for="before_duration">Before duration:</label>
+      <input type="number" id="before_duration" name="before_duration" required class="form-control">
     </div>
     <div class="form-group">
-      <label for="remainder_frequency">Fréquence</label>
-      <input type="text" id="remainder_frequency" name="remainder_frequency" required class="form-control">
+      <label for="remainder_frequency">Remainder frequency:</label>
+      <input type="number" id="remainder_frequency" name="remainder_frequency" required class="form-control">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" id="close-remainder-types-form" class="btn btn-secondary">Cancel</button>
@@ -153,70 +226,114 @@
 
 <!-- Formulaire caché pour Tasks -->
 <div id="tasks-form" class="form-section" style="display: none;">
-  <h3>Ajouter une tâche</h3>
-  <form action="" method="post">
+  <h3>Add task</h3>
+  <form action="{% url 'add_task' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label for="task_description">Description</label>
-      <input type="text" id="task_description" name="task_description" required class="form-control">
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" required class="form-control">
     </div>
     <div class="form-group">
-      <label for="task_state">État</label>
-      <input type="text" id="task_state" name="task_state" required class="form-control">
+      <label for="remaindertype">Remainder type:</label>
+      <select id="remaindertype" name="remaindertype" class="form-control" required>
+        <option value="" disabled selected>Select group type</option>
+        {% for type in remainder_types %}
+
+        <option value="{{ type.id }}">{{ type.label }}</option>
+        {% endfor %}
+      </select>    
     </div>
     <div class="form-group">
-      <label for="email_group">Groupe Email</label>
-      <input type="text" id="email_group" name="email_group" required class="form-control">
+      <label for="email_group">Mail group:</label>
+      <select id="email_group" name="mailgroup" class="form-control" required>
+        <option value="" disabled selected>Select group type</option>
+        {% for group in email_groups %}
+        <option value="{{ group.id }}">{{ group.group_name }}</option>
+        {% endfor %}
+      </select>   
     </div>
     <div class="form-group">
-      <label for="remainder_type">Type de Rappel</label>
-      <input type="text" id="remainder_type" name="remainder_type" required class="form-control">
+      <label for="state">State:</label>
+      <select id="state" name="state" class="form-control" required>
+        <option value="" disabled selected>Select state</option>
+        <option value="unsend">Unsend</option>
+        <option value="send">Send</option>
+        <option value="under_frequency">Under Frequency</option>
+      </select>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" id="close-tasks-form" class="btn btn-secondary">Cancel</button>
   </form>
 </div>
             {% block content %}
-            
             <div id="email-group-details" class="details-section" style="display:none;">
-              <h2>Email group details</h2>
+              <h2>Email Group Details</h2>
               {% if email_group_details %}
-
-              <table>
+              <table class="table table-striped">
                 <thead>
                   <tr>
                     <th>Email</th>
-                    <th>Groupe Détails</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for detail in email_group_details %}
                     <tr>
                       <td>{{ detail.email }}</td>
-                      <td>{{ detail.group_detail }}</td>
+                      <td>
+                        <a href="{% url 'update_email_group_detail' detail.id %}" class="btn btn-warning btn-sm">Update</a> 
+                      </td>
+                      <td> 
+                        <a href="{% url 'delete_email_group_detail' detail.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
               </table>
               {% else %}
-              <p>0 email group detail</p>{% endif %}
+                <p>No email group details found.</p>
+              {% endif %}
             </div>
+            
 
+
+
+
+            <!-- Div pour email group details update -->
+
+            <div id="emailgroupdetails-types-form" class="details-section" style="display:none;">
+              <h2>Update Email Group Details </h2>
+              <form action="" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" onclick="closeUpdateForm()">Cancel</button>
+              </form>
+            </div>   
+            
             <!-- Div pour Email Groups -->
             <div id="email-groups" class="details-section" style="display:none;">
               <h2>Email groups</h2>
               {% if email_groups %}
-
               <table>
                 <thead>
                   <tr>
-                    <th>Nom du groupe</th>
+                    <th>Group Name</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for group in email_groups %}
                     <tr>
                       <td>{{ group.group_name }}</td>
+                      <td>
+                        <a href="{% url 'update_email_group' group.id %}" class="btn btn-warning btn-sm">Update</a> 
+                      </td>
+                      <td>  
+                        <a href="{% url 'delete_email_group' group.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -225,6 +342,19 @@
               <p>0 email groups</p>{% endif %}
             </div>
 
+
+
+              <!-- Div pour email groups update -->
+
+              <div id="emailgroups-types-form" class="details-section" style="display:none;">
+                <h2>Update Email Groups </h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUpdateForm()">Cancel</button>
+                </form>
+              </div>  
             <!-- Div pour Mail Logs -->
             <div id="mail-logs" class="details-section" style="display:none;">
               <h2>Mail log</h2>
@@ -233,8 +363,10 @@
                 <thead>
                   <tr>
                     <th>Description</th>
-                    <th>Date d'envoi</th>
-                    <th>Groupe Email</th>
+                    <th>Sending Date</th>
+                    <th>Email Group</th>                    
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -243,6 +375,12 @@
                       <td>{{ log.description }}</td>
                       <td>{{ log.dateofsend }}</td>
                       <td>{{ log.email_group }}</td>
+                      <td>
+                        <a href="{% url 'update_mail_log' log.id %}" class="btn btn-warning btn-sm">Update</a> 
+                      </td>
+                      <td> 
+                        <a href="{% url 'delete_mail_log' log.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -252,6 +390,18 @@
               <p>0 mail logs</p>{% endif %}
             </div>
 
+
+               <!-- Div pour mail log update -->
+
+              <div id="maillog-types-form" class="details-section" style="display:none;">
+                <h2>Update Mail Log </h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUpdateForm()">Cancel</button>
+                </form>
+              </div>  
             <!-- Div pour Remainder Types -->
             <div id="remainder-types" class="details-section" style="display:none;">
               <h2>Remainder types</h2>
@@ -260,8 +410,10 @@
                 <thead>
                   <tr>
                     <th>Label</th>
-                    <th>Durée avant</th>
-                    <th>Fréquence</th>
+                    <th>Duration Before</th>
+                    <th>Remainder Frequency</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -270,14 +422,32 @@
                       <td>{{ remainder.label }}</td>
                       <td>{{ remainder.before_duration }}</td>
                       <td>{{ remainder.remainder_frequency }}</td>
+                      <td>
+                        <button class="btn btn-warning btn-sm" onclick="showUpdateForm('remainder-types-form', {{ remainder.id }})">Update</button>
+                      </td>
+                      <td>  
+                        <a href="{% url 'delete_remainder_type' remainder.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
               </table>
               {% else %}
-              <p>0 remainder types</p>{% endif %}
+              <p>0 remainder types</p>
+              {% endif %}
             </div>
 
+             <!-- Div pour remainder update -->
+
+            <div id="remainder-types-form" class="details-section" style="display:none;">
+              <h2>Update Remainder Type</h2>
+              <form action="" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" onclick="closeUpdateForm()">Cancel</button>
+              </form>
+          </div>
             <!-- Div pour Tasks -->
             <div id="tasks" class="details-section" style="display:none;">
               <h2>Tasks</h2>
@@ -287,9 +457,11 @@
                 <thead>
                   <tr>
                     <th>Description</th>
-                    <th>État</th>
-                    <th>Groupe Email</th>
-                    <th>Type de Rappel</th>
+                    <th>Status</th>
+                    <th>Email Group</th>
+                    <th>Reminder Type</th>                    
+                    <th>Update</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -299,6 +471,12 @@
                       <td>{{ task.state }}</td>
                       <td>{{ task.mailgroup }}</td>
                       <td>{{ task.remaindertype }}</td>
+                      <td>
+                        <a href="{% url 'update_task' task.id %}" class="btn btn-warning btn-sm">Update</a> 
+                      </td>
+                      <td>
+                        <a href="{% url 'delete_task' task.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -307,6 +485,18 @@
               <p>0 Tasks</p>{% endif %}
             </div>
 
+
+               <!-- Div pour task update -->
+
+               <div id="task-types-form" class="details-section" style="display:none;">
+                <h2>Update Task </h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUpdateForm()">Cancel</button>
+                </form>
+            </div>  
             {% endblock %}
           </div>
         </div>
@@ -342,7 +532,7 @@
   document.getElementById('email-group-details-toggle').addEventListener('click', function() {
     toggleForm('email-group-details-form');
   });
-
+ 
   document.getElementById('email-groups-toggle').addEventListener('click', function() {
     toggleForm('email-groups-form');
   });
@@ -379,7 +569,30 @@
     document.getElementById('tasks-form').style.display = 'none';
   });
 </script>
+<script>
+  function showAddDetailForm() {
+    document.getElementById("email-group-details-form").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+  }
 
+  function closeForm() {
+    document.getElementById("email-group-details-form").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+  }
+</script>
+<script>
+function openGroupForm() {
+  document.getElementById("email-groups-form").style.display = "block";
+}
+
+function closeGroupForm() {
+  document.getElementById("email-groups-form").style.display = "none";
+}
+
+function closeForm() {
+  document.getElementById("email-group-details-form").style.display = "none";
+}
+</script>
 </body>
 </html>
 

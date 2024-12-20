@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+
+  <title>CG_Remainders</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'styledash.css' %}">
+
+</head>
+<style>
+
+  
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    width: 500px;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+    width: 500px;
+
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .btn {
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .btn-sm {
+    font-size: 12px;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+</style>
+<body>
+<div id="page-wrapper" class="open">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar">
+      <li class="sidebar-main">
+        <a ng-click="toggleSidebar()">
+          <center style="padding: 15px;"><img src="{% static 'images/logo.png' %}" class="img-responsive"></center>
+        </a>
+      </li>
+      <li class="sidebar-list">
+        <a href="{% url 'email_group_detail' %}" onclick="toggleDetails('email-group-details')">Email Group Details <span class="menu-icon fa fa-plus" id="email-group-details-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'email_group' %}" onclick="toggleDetails('email-groups')">Email Groups <span class="menu-icon fa fa-plus" id="email-groups-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'mail_log' %}" onclick="toggleDetails('mail-logs')">Mail Logs <span class="menu-icon fa fa-plus"  id="mail-logs-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'remainder' %}" onclick="toggleDetails('remainder-types')">Remainder Types <span class="menu-icon fa fa-plus" id="remainder-types-toggle" style="cursor: pointer;"></span></a>
+        <a href="{% url 'tasks' %}" onclick="toggleDetails('tasks')">Tasks <span class="menu-icon fa fa-plus" id="tasks-toggle" style="cursor: pointer;"></span></a>
+      </li>
+    </ul>
+  </div>
+  <!-- End Sidebar -->
+
+  <div id="content-wrapper" >
+    <div class="page-content" style="margin: 0px 50px 0px 50px;">
+      <!-- Header Bar -->
+      <div class="row header" style="background-color: transparent;">
+        <div class="col-xs-12">
+          <div class="user pull-right">
+            <div class="item dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-4x"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="divider"></li>
+                <li class="link">
+                  <a href="{% url 'Login' %}">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- End Header Bar -->
+
+<!-- Main Content -->
+<div class="ng-scope">
+  <div class="row ng-scope">
+    <div class="col-lg-3 col-md-6 col-xs-12">
+
+
+             <!-- Div pour remainder update -->
+
+            <div id="remainder-types-form" class="details-section" >
+              <h2>Update Remainder Type</h2>
+              <form action="" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+
+              
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <a href="{% url 'remainder' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+          </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleDetails(sectionId) {
+    var sections = document.querySelectorAll('.details-section');
+    sections.forEach(function(section) {
+      section.style.display = 'none';  
+    });
+
+    var section = document.getElementById(sectionId);
+    if (section) {
+      section.style.display = 'block';  
+    }
+  }
+</script>
+<script>
+  function toggleForm(formId) {
+    const allForms = document.querySelectorAll('.form-section');
+    allForms.forEach(function(form) {
+      form.style.display = 'none';
+    });
+
+    const form = document.getElementById(formId);
+    form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+  }
+
+  document.getElementById('email-group-details-toggle').addEventListener('click', function() {
+    toggleForm('email-group-details-form');
+  });
+ 
+  document.getElementById('email-groups-toggle').addEventListener('click', function() {
+    toggleForm('email-groups-form');
+  });
+
+  document.getElementById('mail-logs-toggle').addEventListener('click', function() {
+    toggleForm('mail-logs-form');
+  });
+
+  document.getElementById('remainder-types-toggle').addEventListener('click', function() {
+    toggleForm('remainder-types-form');
+  });
+
+  document.getElementById('tasks-toggle').addEventListener('click', function() {
+    toggleForm('tasks-form');
+  });
+
+  document.getElementById('close-email-group-details-form').addEventListener('click', function() {
+    document.getElementById('email-group-details-form').style.display = 'none';
+  });
+
+  document.getElementById('close-email-groups-form').addEventListener('click', function() {
+    document.getElementById('email-groups-form').style.display = 'none';
+  });
+
+  document.getElementById('close-mail-logs-form').addEventListener('click', function() {
+    document.getElementById('mail-logs-form').style.display = 'none';
+  });
+
+  document.getElementById('close-remainder-types-form').addEventListener('click', function() {
+    document.getElementById('remainder-types-form').style.display = 'none';
+  });
+
+  document.getElementById('close-tasks-form').addEventListener('click', function() {
+    document.getElementById('tasks-form').style.display = 'none';
+  });
+</script>
+<script>
+  function showAddDetailForm() {
+    document.getElementById("email-group-details-form").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+  }
+
+  function closeForm() {
+    document.getElementById("email-group-details-form").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+  }
+</script>
+<script>
+function openGroupForm() {
+  document.getElementById("email-groups-form").style.display = "block";
+}
+
+function closeGroupForm() {
+  document.getElementById("email-groups-form").style.display = "none";
+}
+
+function closeForm() {
+  document.getElementById("email-group-details-form").style.display = "none";
+}
+</script>
+</body>
+</html>
+
