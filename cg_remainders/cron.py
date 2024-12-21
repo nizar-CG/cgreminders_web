@@ -26,16 +26,22 @@ def my_scheduled_job():
           fail_silently=False,
         )
         print('mail sent')
-        mail_log_object = MailLog.objects.create(description=task.main_object,date=today,email_group=task.mailgroup.group_name)
+        mail_log_object = MailLog.objects.create(description=task.main_object,date=today,email_group=task.mailgroup)
         task.state = 'send'
       if send_factor < task.remaindertype.before_duration and (send_factor / task.remaindertype.remainder_frequency) == 0 :
+        l = []
+        group_detils = EmailGroupDetails.objects.filter(group_detail=task.mailgroup.id)
+        for group in group_detils:
+          l.append(group.email)
+        print(task.mailgroup.details, l)
         send_mail(
-          'Reminder of a sent notification {0}'.format(task.main_object),
+          task.main_object,
           task.description,
           'cgreminder@carthageit.com',
-          task.mailgroup.details,
+          l,
           fail_silently=False,
         )
+        print('mail reminder sent')
         mail_log_object = MailLog.objects.create(description='Reminder of a sent notification {0}'.format(task.main_object), date=today,
-                                                 email_group=task.mailgroup.group_name)
+                                                 email_group=task.mailgroup)
         task.state = 'under_frequency'
