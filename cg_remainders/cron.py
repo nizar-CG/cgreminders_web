@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 
-from .models import Tasks,RemainderTypes,EmailGroups,MailLog
+from .models import Tasks,RemainderTypes,EmailGroups,MailLog,EmailGroupDetails
 from datetime import datetime , timedelta
 def my_scheduled_job():
   today = datetime.now().date()
@@ -14,14 +14,15 @@ def my_scheduled_job():
       if send_factor == task.remaindertype.before_duration :
 
         l = []
+        group_detils = EmailGroupDetails.objects.filter(group_detail=task.mailgroup.id)
+        for group in group_detils:
+          l.append(group.email)
         print(task.mailgroup.details,l)
-        for x in task.mailgroup.details:
-          l.append(x.email)
         send_mail(
           task.main_object,
           task.description,
           'cgreminder@carthageit.com',
-          task.mailgroup.details,
+          l,
           fail_silently=False,
         )
         print('mail sent')
